@@ -1,0 +1,22 @@
+Общие требования к оформлению домашних заданий:
+
+programming-2020-autumn //название репозитория
+	.gitignore //обязательные к существованию файлы
+	README.md //обязательные к существованию файлы, пример оформления https://github.com/GnuriaN/format-README
+	LICENCE //обязательные к существованию файлы
+	yyyy.mm.dd-Homework-N //название папки с домашним заданием, дата - день занятия
+		yyyy.mm.dd-Homework-N.sln
+		Task1
+			Source.cpp
+			Task1.vcxproj
+			Task1.vcxproj.filters
+		Task2
+			Source.cpp
+			Task2.vcxproj
+			Task2.vcxproj.filters
+		TaskN
+			Source.cpp
+			TaskN.vcxproj
+			TaskN.vcxproj.filters
+		
+

@@ -1,0 +1,13 @@
+git clone http://github.com/st021213/programming-bach-2020-autumn D:\path
+cd \d D:\path
+git config --global user.email st021213@student.spbu.ru
+git config --global user.name st021213
+git add "cl test.txt"
+git commit -m "command line commit test"
+git push
+
+git commit --message "some changes" --all
+git push
+
+git fetch --all
+git reset --hard origin/master
