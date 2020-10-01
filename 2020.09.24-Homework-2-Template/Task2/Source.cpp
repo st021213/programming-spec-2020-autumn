@@ -40,17 +40,17 @@ void reverseArray(int* arr, int count)
     //
 }
 
-int swapPairsArray(int* arr, int count)
+void swapPairsArray(int* arr, int count)
 {
     //
 }
 
-int shiftArray(int* arr, int count)
+void shiftArray(int* arr, int count)
 {
     //
 }
 
-int shiftPartsArray(int* arr, int count, int n)
+void shiftPartsArray(int* arr, int count, int n)
 {
     //
 }
