@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-	int* data = new int[12] {0};
+	int* data = new int[10 + 2] {0};
 	*(data) = 5; //data[0]
 	*(data + 1) = 10; //data[1]
 	data += 2;
