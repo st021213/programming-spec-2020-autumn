@@ -22,7 +22,7 @@ void printMenu()
 int* initArray(int capacity = 10)
 {
     int* result = new int[capacity + 2]{ 0 };
-    result[1] = 10;
+    *(result + 1) = 10;
     result += 2;
     return result;
 }
@@ -56,10 +56,10 @@ void addRandomElements(int*& arr, int n, int min, int max)
 
 void printArray(int* arr, int count)
 {
-    cout << "[" << arr[-2] << "/" << arr[-1] << "] {";
-    for (int i = 0; i < arr[-2]; ++i)
+    cout << "[" << *(arr - 2) << "/" << *(arr - 1) << "] {";
+    for (int i = 0; i < *(arr - 2); ++i)
     {
-        cout << *(arr + i) << (i == arr[-2] - 1 ? "}\n" : ", ");
+        cout << *(arr + i) << (i == *(arr - 2) - 1 ? "}\n" : ", ");
     }
 }
 
