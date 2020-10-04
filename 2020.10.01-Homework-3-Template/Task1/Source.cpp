@@ -26,13 +26,11 @@ void printMenu()
 /// <returns> указатель на начало массива</returns>
 int* initArray(int capacity = 10)
 {
-	/*
 	int result = new int[capacity + 2]{ 0 };
 	*(result + 1) = capacity;
 	result += 2;
 	return result;
-	*/
-	return (new int[capacity + 2]{ 0, capacity }) + 2;
+	//return (new int[capacity + 2]{ 0, capacity }) + 2;
 }
 
 /// <summary>
