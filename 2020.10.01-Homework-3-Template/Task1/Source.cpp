@@ -6,61 +6,86 @@ using namespace std;
 
 void printMenu()
 {
-    cout << "МЕНЮ" << endl;
-    cout << "0 - Выход из программы" << endl;
-    cout << "1 - Ввести несколько элемнетов с клавиатуры" << endl;
-    cout << "2 - Добавить в массив n случайных чисел в промежутке от a до b(n, a, b вводится с клавиатуры)" << endl;
-    cout << "3 - Вывести массив на экран" << endl;
-    cout << "4 - Поиск индекса элемента" << endl;
-    cout << "5 - Добавление массив к массиву" << endl;
-    cout << "6 - Объединение массивов" << endl;
-    cout << "7 - Вставка элемента в массив" << endl;
-    cout << "8 - Удаление нескольких подряд идущих элементов массива" << endl;
-    cout << "9 - Поиск подпоследовательности" << endl;
+	cout << "МЕНЮ" << endl;
+	cout << "0 - Выход из программы" << endl;
+	cout << "1 - Ввести несколько элемнетов с клавиатуры" << endl;
+	cout << "2 - Добавить в массив n случайных чисел в промежутке от a до b(n, a, b вводится с клавиатуры)" << endl;
+	cout << "3 - Вывести массив на экран" << endl;
+	cout << "4 - Поиск индекса элемента" << endl;
+	cout << "5 - Добавление массив к массиву" << endl;
+	cout << "6 - Объединение массивов" << endl;
+	cout << "7 - Вставка элемента в массив" << endl;
+	cout << "8 - Удаление нескольких подряд идущих элементов массива" << endl;
+	cout << "9 - Поиск подпоследовательности" << endl;
 }
 
+/// <summary>
+/// Инициализация массива
+/// </summary>
+/// <param name="capacity"> вместительность массива </param>
+/// <returns> указатель на начало массива</returns>
 int* initArray(int capacity = 10)
 {
-    int* result = new int[capacity + 2]{ 0 };
-    *(result + 1) = 10;
-    result += 2;
-    return result;
+	/*
+	int result = new int[capacity + 2]{ 0 };
+	*(result + 1) = capacity;
+	result += 2;
+	return result;
+	*/
+	return (new int[capacity + 2]{ 0, capacity }) + 2;
 }
 
 /// <summary>
 /// Освобождение памяти из-под массива
 /// </summary>
-/// <param name="arr">Боги, ну указатель тут на какой-то элемент массива. Посмотрите несколькими строками выше</param>
+/// <param name="arr">Указатель</param>
 void deleteArray(int* arr)
 {
-
+	/*
+	arr -= 2;
+	delete[] arr;
+	*/
+	delete[](arr - 2);
 }
 
 void expandArray(int*& arr)
 {
-
+	int* temp = initArray(2 * (*(arr - 1)));
+	for (int i = 0; i < *(arr - 1); ++i)
+	{
+		*(temp + i) = *(arr + i);
+	}
+	*(temp - 2) = *(arr - 2);
+	deleteArray(arr);
+	arr = temp;
 }
 
 void addElement(int*& arr, int element)
 {
+	if (*(arr - 2) == *(arr - 1))
+	{
+		expandArray(arr);
+	}
+	*(arr + *(arr - 2)) = element;
+	++(*(arr - 2));
 
 }
 
 void addRandomElements(int*& arr, int n, int min, int max)
 {
-    for (int i = 0; i < n; ++i)
-    {
-        addElement(arr, rand() % (max - min + 1) + min);
-    }
+	for (int i = 0; i < n; ++i)
+	{
+		addElement(arr, rand() % (max - min + 1) + min);
+	}
 }
 
 void printArray(int* arr, int count)
 {
-    cout << "[" << *(arr - 2) << "/" << *(arr - 1) << "] {";
-    for (int i = 0; i < *(arr - 2); ++i)
-    {
-        cout << *(arr + i) << (i == *(arr - 2) - 1 ? "}\n" : ", ");
-    }
+	cout << "[" << *(arr - 2) << "/" << *(arr - 1) << "] {";
+	for (int i = 0; i < *(arr - 2); ++i)
+	{
+		cout << *(arr + i) << (i == *(arr - 2) - 1 ? "}\n" : ", ");
+	}
 }
 
 /// <summary>
@@ -149,33 +174,33 @@ int subSequence(int* a, int* b)
 
 void processChoice(int*& arr1, int*& arr2, int choice)
 {
-    switch (choice)
-    {
-    case 1:
-        break;
-    case 2:
-        break;
-    }
+	switch (choice)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	}
 }
 
 int main()
 {
-    srand(time(NULL));
-    setlocale(LC_ALL, "Russian");
-    int* a = initArray(10);
-    int* b = initArray(10);
+	srand(time(NULL));
+	setlocale(LC_ALL, "Russian");
+	int* a = initArray(10);
+	int* b = initArray(10);
 
-    int choice = 0;
-    do
-    {
-        system("cls");
-        printMenu();
-        cin >> choice;
-        processChoice(a, b, choice);
-        system("pause");
-    } while (choice != 0);
+	int choice = 0;
+	do
+	{
+		system("cls");
+		printMenu();
+		cin >> choice;
+		processChoice(a, b, choice);
+		system("pause");
+	} while (choice != 0);
 
-    deleteArray(a);
-    deleteArray(b);
-    return EXIT_SUCCESS;
+	deleteArray(a);
+	deleteArray(b);
+	return EXIT_SUCCESS;
 }
