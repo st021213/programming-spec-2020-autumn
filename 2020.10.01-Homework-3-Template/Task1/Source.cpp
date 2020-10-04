@@ -26,7 +26,7 @@ void printMenu()
 /// <returns> указатель на начало массива</returns>
 int* initArray(int capacity = 10)
 {
-	int result = new int[capacity + 2]{ 0 };
+	int* result = new int[capacity + 2]{ 0 };
 	*(result + 1) = capacity;
 	result += 2;
 	return result;
@@ -77,7 +77,7 @@ void addRandomElements(int*& arr, int n, int min, int max)
 	}
 }
 
-void printArray(int* arr, int count)
+void printArray(int* arr)
 {
 	cout << "[" << *(arr - 2) << "/" << *(arr - 1) << "] {";
 	for (int i = 0; i < *(arr - 2); ++i)
