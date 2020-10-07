@@ -15,8 +15,9 @@ void printMenu()
 	cout << "5 - Добавление массив к массиву" << endl;
 	cout << "6 - Объединение массивов" << endl;
 	cout << "7 - Вставка элемента в массив" << endl;
-	cout << "8 - Удаление нескольких подряд идущих элементов массива" << endl;
-	cout << "9 - Поиск подпоследовательности" << endl;
+	cout << "8 - Извлечение элемента из массива" << endl;
+	cout << "9 - Удаление нескольких подряд идущих элементов массива" << endl;
+	cout << "10 - Поиск подпоследовательности" << endl;
 }
 
 /// <summary>
@@ -95,7 +96,7 @@ void printArray(int* arr)
 /// <returns>индекс первого найденного элемента или -1, если элемент не найден</returns>
 int search(int* arr, int element, int start = 0)
 {
-
+	return 0;
 }
 
 /// <summary>
@@ -120,7 +121,7 @@ void add(int*& arr, int* addedArr)
 ///</returns>
 int* unify(int* a, int* b)
 {
-
+	return 0;
 }
 
 /// <summary>
@@ -131,7 +132,7 @@ int* unify(int* a, int* b)
 /// <returns>элемент, стоявший под индексом index, если index был некорректен - вернуть -1</returns>
 int extract(int* a, int index)
 {
-
+	return 0;
 }
 
 /// <summary>
@@ -143,7 +144,7 @@ int extract(int* a, int index)
 /// <returns>Возвращается 0, если все хорошо и индекс был корректен, 1 - если индес был некорректен</returns>
 int insert(int*& a, int index, int element)
 {
-
+	return 0;
 }
 
 /// <summary>
@@ -155,7 +156,7 @@ int insert(int*& a, int index, int element)
 /// <returns>0, если все прошло хорошо, 1, если входные данные были некорректными</returns>
 int deleteGroup(int* a, int startIndex, int count = 1)
 {
-
+	return 0;
 }
 
 /// <summary>
@@ -166,18 +167,137 @@ int deleteGroup(int* a, int startIndex, int count = 1)
 /// <returns>Индекс начала подпоследовательности или -1, если таковой нет</returns>
 int subSequence(int* a, int* b)
 {
-
+	return 0;
 }
 
+
+int* resolveArray(int* arr1, int* arr2)
+{
+	int a = 0;
+	cout << "Номер массива (1 / 2) ? ";
+	cin >> a;
+	return (a == 1 ? arr1 : arr2);
+}
 
 void processChoice(int*& arr1, int*& arr2, int choice)
 {
 	switch (choice)
 	{
 	case 1:
-		break;
+	{
+		int* arr = resolveArray(arr1, arr2);
+		cout << "Вводите элементы (0 - окончание ввода)" << endl;
+		while (true)
+		{
+			int x = 0;
+			cin >> x;
+			if (x == 0)
+			{
+				break;
+			}
+			addElement(arr, x);
+		}
+	}
+	break;
 	case 2:
-		break;
+	{
+		int* arr = resolveArray(arr1, arr2);
+		cout << "Количество = ";
+		int n = 0;
+		cin >> n;
+		cout << "Min = ";
+		int min = 0;
+		cin >> min;
+		cout << "Max = ";
+		int max = 0;
+		cin >> max;
+		addRandomElements(arr, n, min, max);
+	}
+	break;
+	case 3:
+	{
+		int* arr = resolveArray(arr1, arr2);
+		printArray(arr);
+	}
+	break;
+	case 4:
+	{
+		int* arr = resolveArray(arr1, arr2);
+		int element = 0;
+		cout << "Введите элемент для поиска : ";
+		cin >> element;
+		cout << search(arr, element) << endl;
+	}
+	break;
+	case 5:
+	{
+		cout << "К какому массиву будем добавлять? ";
+		int* arrA = resolveArray(arr1, arr2);
+		cout << "Какой массив будем добавлять? ";
+		int* arrB = resolveArray(arr1, arr2);
+		add(arrA, arrB);
+	}
+	break;
+	case 6:
+	{
+		cout << "Номер массива (1 / 2) ? ";
+		int a = 0;
+		cin >> a;
+		if ((a != 1) && (a != 2))
+		{
+			break;
+		}
+
+	}
+	break;
+	case 7:
+	{
+		cout << "Номер массива (1 / 2) ? ";
+		int a = 0;
+		cin >> a;
+		if ((a != 1) && (a != 2))
+		{
+			break;
+		}
+
+	}
+	break;
+	case 8:
+	{
+		cout << "Номер массива (1 / 2) ? ";
+		int a = 0;
+		cin >> a;
+		if ((a != 1) && (a != 2))
+		{
+			break;
+		}
+
+	}
+	break;
+	case 9:
+	{
+		cout << "Номер массива (1 / 2) ? ";
+		int a = 0;
+		cin >> a;
+		if ((a != 1) && (a != 2))
+		{
+			break;
+		}
+
+	}
+	break;
+	case 10:
+	{
+		cout << "Номер массива (1 / 2) ? ";
+		int a = 0;
+		cin >> a;
+		if ((a != 1) && (a != 2))
+		{
+			break;
+		}
+
+	}
+	break;
 	}
 }
 
