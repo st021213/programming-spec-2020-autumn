@@ -41,7 +41,7 @@ void addNumber(char* str, int& pos, int number)
 		++current;
 		number /= 10;
 	}
-	pos += numberLength;
+	pos += numLen;
 }
 
 char* arrayToString(ArrayList& arr)
