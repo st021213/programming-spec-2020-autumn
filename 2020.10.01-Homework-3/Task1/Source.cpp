@@ -1,6 +1,7 @@
 ﻿#include<iostream>
 #include<clocale>
 #include<ctime>
+#include "Source.h"
 
 using namespace std;
 
@@ -15,8 +16,9 @@ void printMenu()
 	cout << "5 - Добавление массив к массиву" << endl;
 	cout << "6 - Объединение массивов" << endl;
 	cout << "7 - Вставка элемента в массив" << endl;
-	cout << "8 - Удаление нескольких подряд идущих элементов массива" << endl;
-	cout << "9 - Поиск подпоследовательности" << endl;
+	cout << "8 - Извлечение элемента из массива" << endl;
+	cout << "9 - Удаление нескольких подряд идущих элементов массива" << endl;
+	cout << "10 - Поиск подпоследовательности" << endl;
 }
 
 /// <summary>
@@ -26,11 +28,17 @@ void printMenu()
 /// <returns> указатель на начало массива</returns>
 int* initArray(int capacity = 10)
 {
+	/*
+	//     0,        1, 2, 3, ... capacity + 2}
+	//{count, capacity, 0, 0, 0, 0, ... 0}
 	int* result = new int[capacity + 2]{ 0 };
 	*(result + 1) = capacity;
+	//    -2,       -1, 0, 1, 2, 3, ... capacity + 2}
+	//{count, capacity, 0, 0, 0, 0, ... 0}
 	result += 2;
 	return result;
-	//return (new int[capacity + 2]{ 0, capacity }) + 2;
+	*/
+	return (new int[capacity + 2]{ 0, capacity }) + 2;
 }
 
 /// <summary>
@@ -39,11 +47,9 @@ int* initArray(int capacity = 10)
 /// <param name="arr">Указатель</param>
 void deleteArray(int* arr)
 {
-	/*
-	arr -= 2;
-	delete[] arr;
-	*/
-	delete[](arr - 2);
+	//arr -= 2;
+	//delete[] arr;
+	delete[] (arr - 2);
 }
 
 void expandArray(int*& arr)
@@ -56,6 +62,18 @@ void expandArray(int*& arr)
 	*(temp - 2) = *(arr - 2);
 	deleteArray(arr);
 	arr = temp;
+
+	//arr[i] -> (*(arr + i))
+	/*
+	int* temp = initArray(2 * arr[-1]);
+	for (int i = 0; i < arr[-1]; ++i)
+	{
+		temp[i] = arr[i];
+	}
+	temp[-2] = arr[-2];
+	deleteArray(arr);
+	arr = temp;
+	*/
 }
 
 void addElement(int*& arr, int element)
@@ -64,12 +82,11 @@ void addElement(int*& arr, int element)
 	{
 		expandArray(arr);
 	}
-	*(arr + *(arr - 2)) = element;
-	++(*(arr - 2));
-
+	*(arr + *(arr - 2)) = element; //arr[arr[-2]] = element;
+	++(*(arr - 2)); //arr[-2]++;
 }
 
-void addRandomElements(int*& arr, int n, int min, int max)
+void addRandomElements(int*& arr, int n = 10, int min = 10, int max = 99)
 {
 	for (int i = 0; i < n; ++i)
 	{
@@ -95,7 +112,14 @@ void printArray(int* arr)
 /// <returns>индекс первого найденного элемента или -1, если элемент не найден</returns>
 int search(int* arr, int element, int start = 0)
 {
-
+	for (int i = start; i < *(arr - 2); ++i)
+	{
+		if (*(arr + i) == element)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 /// <summary>
@@ -105,7 +129,10 @@ int search(int* arr, int element, int start = 0)
 /// <param name="addedArr">Массив с добавляемыми элементами</param>
 void add(int*& arr, int* addedArr)
 {
-
+	for (int i = 0; i < *(addedArr - 2); ++i)
+	{
+		addElement(arr, *(addedArr + i));
+	}
 }
 
 /// <summary>
@@ -120,7 +147,31 @@ void add(int*& arr, int* addedArr)
 ///</returns>
 int* unify(int* a, int* b)
 {
-
+	int maxCount = (*(a - 2) > * (b - 2) ? *(a - 2) : *(b - 2)); //количество элементов в большем массиве
+	/*
+	int maxCount = 0;
+	if (*(a - 2) > *(b - 2))
+	{
+		maxCount = *(a - 2);
+	}
+	else
+	{
+		maxCount = *(b - 2);
+	}
+	*/
+	int minCount = (*(a - 2) > * (b - 2) ? *(b - 2) : *(a - 2)); //количество элементов в меньшем массиве
+	int* maxArrCount = (*(a - 2) > * (b - 2) ? a : b); // массив с большим количеством элементов
+	int* result = initArray(minCount + maxCount);
+	for (int i = 0; i < minCount; ++i)
+	{
+		addElement(result, *(a + i));
+		addElement(result, *(b + i));
+	}
+	for (int i = minCount; i < maxCount; ++i)
+	{
+		addElement(result, *(maxArrCount + i));
+	}
+	return result;
 }
 
 /// <summary>
@@ -131,7 +182,19 @@ int* unify(int* a, int* b)
 /// <returns>элемент, стоявший под индексом index, если index был некорректен - вернуть -1</returns>
 int extract(int* a, int index)
 {
+	if (index < 0 || index > * (a - 2))
+	{
+		return -1;
+	}
+	
+	int result = *(a + index);
+	for (int i = index; i < *(a - 2) - 1; ++i)
+	{
+		*(a + i) = *(a + i + 1);
+	}
+	--(*(a - 2));
 
+	return result;
 }
 
 /// <summary>
@@ -141,9 +204,29 @@ int extract(int* a, int index)
 /// <param name="index">Индекс вставленного элемента</param>
 /// <param name="element">Значение элемента</param>
 /// <returns>Возвращается 0, если все хорошо и индекс был корректен, 1 - если индес был некорректен</returns>
-int insert(int*& a, int index, int element)
+int insert(int*& arr, int index, int element)
 {
+	if (index < 0 || index > * (arr - 2))
+	{
+		return 1;
+	}
+	if (*(arr - 2) == *(arr - 1))
+	{
+		expandArray(arr);
+	}
 
+	// 0 1 2 3 4 5 6 7 8 - индексы
+	// 1 2 3 4 5 6 7 8  count = 8, index = 4
+	// 1 2 3 4 e 5 6 7 8
+
+	for (int i = *(arr - 2); i > index; --i)
+	{
+		*(arr + i) = *(arr + i - 1);
+	}
+	*(arr + index) = element;
+	++(*(arr - 2));
+
+	return 0;
 }
 
 /// <summary>
@@ -153,9 +236,20 @@ int insert(int*& a, int index, int element)
 /// <param name="startIndex">Начало удаляемого куска</param>
 /// <param name="count">Количество удаялемых элементов</param>
 /// <returns>0, если все прошло хорошо, 1, если входные данные были некорректными</returns>
-int deleteGroup(int* a, int startIndex, int count = 1)
+int deleteGroup(int* arr, int startIndex, int count = 1)
 {
+	if (startIndex < 0 || startIndex > * (arr - 2) || startIndex + count > *(arr - 2))
+	{
+		return 1;
+	}
 
+	for (int i = 0; i < count; ++i)
+	{
+		*(arr + startIndex + i) = *(arr + startIndex + i + count);
+	}
+	*(arr - 2) -= count;
+
+	return 0;
 }
 
 /// <summary>
@@ -166,25 +260,142 @@ int deleteGroup(int* a, int startIndex, int count = 1)
 /// <returns>Индекс начала подпоследовательности или -1, если таковой нет</returns>
 int subSequence(int* a, int* b)
 {
-
+	//0 2 3 1 2 3 1 2 2 3
+	//      1 2 2 3
+	for (int i = 0; i < *(a - 2) - *(b - 2) + 1; ++i)
+	{
+		if (*(a + i) == *(b))
+		{
+			bool flag = true;
+			for (int j = 0; j < *(b - 2); ++j)
+			{
+				if (*(b + j) != *(a + i + j))
+				{
+					flag = false;
+				}
+			}
+			if (flag)
+			{
+				return i;
+			}
+		}
+	}
+	return -1;
 }
-
 
 void processChoice(int*& arr1, int*& arr2, int choice)
 {
 	switch (choice)
 	{
 	case 1:
-		break;
-	case 2:
-		break;
+	{
+		int* arr = resolveArray(arr1, arr2);
+		cout << "Вводите элементы (0 - окончание ввода)" << endl;
+		while (true)
+		{
+			int x = 0;
+			cin >> x;
+			if (x == 0)
+			{
+				break;
+			}
+			addElement(arr, x);
+		}
 	}
+	break;
+	case 2:
+	{
+		choice2Processor(arr1, arr2);
+	}
+	break;
+	case 3:
+	{
+		int* arr = resolveArray(arr1, arr2);
+		printArray(arr);
+	}
+	break;
+	case 4:
+	{
+		int* arr = resolveArray(arr1, arr2);
+		int element = 0;
+		cout << "Введите элемент для поиска : ";
+		cin >> element;
+		cout << search(arr, element) << endl;
+	}
+	break;
+	case 5:
+	{
+		choice5Processor(arr1, arr2);
+	}
+	break;
+	case 6:
+	{
+
+	}
+	break;
+	case 7:
+	{
+
+	}
+	break;
+	case 8:
+	{
+
+	}
+	break;
+	case 9:
+	{
+
+	}
+	break;
+	case 10:
+	{
+
+	}
+	break;
+	}
+}
+
+int* resolveArray(int* arr1, int* arr2)
+{
+	int a = 0;
+	cout << "Номер массива (1 / 2) ? ";
+	cin >> a;
+	return (a == 1 ? arr1 : arr2);
+}
+
+void choice2Processor(int*& arr1, int*& arr2)
+{
+
+	int* arr = resolveArray(arr1, arr2);
+	cout << "Количество = ";
+	int n = 0;
+	cin >> n;
+	cout << "Min = ";
+	int min = 0;
+	cin >> min;
+	cout << "Max = ";
+	int max = 0;
+	cin >> max;
+	addRandomElements(arr, n, min, max);
+}
+
+void choice5Processor(int*& arr1, int*& arr2)
+{
+
+	cout << "К какому массиву будем добавлять? ";
+	int* arrA = resolveArray(arr1, arr2);
+	cout << "Какой массив будем добавлять? ";
+	int* arrB = resolveArray(arr1, arr2);
+	add(arrA, arrB);
 }
 
 int main()
 {
 	srand(time(NULL));
 	setlocale(LC_ALL, "Russian");
+	//-2,     -1,       0, 1, 2, 3, ... capacity}
+	//{count, capacity, 0, 0, 0, 0, ... 0}
 	int* a = initArray(10);
 	int* b = initArray(10);
 
