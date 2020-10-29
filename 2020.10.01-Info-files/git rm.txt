@@ -1,0 +1,12 @@
+cd /d D:\Students\programming-spec-2020-autumn
+
+git add --all
+//git add 2020.10.29-Lesson-7\Debug - не сработает, потому что .gitignore
+git add 2020.10.29-Lesson-7\Debug --force
+git commit --message "Debug added" --all
+git push
+
+//git rm 2020.10.29-Lesson-7\Debug не сработает, потому что не рекурсивное удаление
+git rm 2020.10.29-Lesson-7\Debug -r
+git commit --message "Debug removed" --all
+git push
