@@ -43,10 +43,17 @@ int main()
 	list[5123] = 1;
 	cout << list << endl;
 
-	while (true)
-	{
-		printList(list);
-	}
+	LinkedList list1;
+	list1.addToHead(5);
+	list1.addToHead(3);
+	list1.add(1, 45);
+	cout << list << list1 << endl;
+	LinkedList list2 = list;
+	list = list1;
+	list1 = list2;
+	cout << list << list1 << endl;
+	
+
 
 	return 0;
 }

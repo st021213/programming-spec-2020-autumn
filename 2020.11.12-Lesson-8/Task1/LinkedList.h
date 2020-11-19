@@ -25,6 +25,8 @@ private:
 public:
 	int length();
 
+	int extractHead();
+
 	bool addToHead(int element);
 
 	bool addToTail(int element);
@@ -36,6 +38,8 @@ public:
 	bool set(int index, int element);
 
 	int& operator[](int index);
+
+	LinkedList& operator=(const LinkedList& list);
 
 	friend std::ostream& operator<<(std::ostream& stream, const LinkedList list);
 };
